@@ -1,64 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Pré-requisitos
+Antes de começar, certifique-se de ter o seguinte instalado
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+PHP (7.4 ou superior)
+Composer
+Laravel
 
-## About Laravel
+# Instalação
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Clone o repositório
+git clone https://github.com/your-username/github-user-info.git
+cd github-user-info
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instale dependências usando o Composer
+composer install
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Renomeie .env.example .env insira linha com o URL da API do GitHub
+dotenv
+API_CEP_URL_BASE=https://viacep.com.br/ws
 
-## Learning Laravel
+## Gere uma chave de aplicativo
+php artisan key:generate
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Inicie o servidor de desenvolvimento
+php artisan serve
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+## Uso
+Ao acessar a página, o usuário tem a opção de consultar um ou mais CEPs em um único clique. 
+Isso é possível ao permitir que o usuário insira vários CEPs separados por vírgula.
+Quando o usuário clica em um botão "Consultar",A API retorna os detalhes do endereço associado ao(s) CEP(s) consultado(s).
+As informações retornadas pela API (como logradouro, bairro, cidade, estado etc.) exibida na página. A cada consulta, uma nova linha é adicionada à tabela com os detalhes do endereço correspondente.
+Para oferecer uma maneira de limpar o conteúdo da tabela e recomeçar, um botão "Limpar Tabela" está presente. 
+Ao clicar neste botão, remove todas as linhas da tabela, reiniciando o processo para uma nova consulta.
+Para permitir a exportação dos registros de CEPs consultados, um botão "Exportar CSV" está presente na página.
+Quando o usuário clica nesse botão, recolhe os dados da tabela e os formata em formato CSV. 
+Um arquivo CSV é gerado dinamicamente, contendo todas as informações dos endereços consultados.
+Esse arquivo pode ser oferecido para download.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+## Sobre o codigo!
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Sobre as rotas usei web.php 
 
-## Contributing
+Para retorna a view cep.blade.php uso a rota GET (/) que acessa a CepController direcionata para a função index() que tenho acesso a página principal.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+A segunda rota ('/consultar-cep') é uma rota POST que lida com a consulta dos CEPs. Ela chama o método consultar do CepController onde recebo atravez do request, os dados da  view cep.blade.php
+faço os devidos tratamentos e validações nessa variavel que foi recebida ess array de dados.
+E esses dado passa para dentro de um metodo privado para buscar o cep que contém uma URL quem vem do dotenv e retornada para a o metodo consultar() e assim exbir a pesquisa novamente na tela caso nao tenha nenhum erro, se houver a tela recebe uma mensagem sobre o o tipo de erro.
 
-## Code of Conduct
+A terceira rota ('/exportar/arquivo/{ceps?}') é uma rota GET que chama o método exportar() do CepController onde recebe um parametro {ceps?}
+esses dados vem do input onde e feito mais um tratamento e reservado esses dados.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+A variável $csvFileName contém um UUID gerado para garantir um nome único para o arquivo CSV.
+O caminho completo do arquivo é construído usando storage_path('app/' . $csvFileName), onde storage_path fornece o diretório de armazenamento da aplicação.
 
-## Security Vulnerabilities
+fopen($csvFilePath, 'a+') abre o arquivo CSV no modo de escrita ('a+').
+Isso permite adicionar dados ao arquivo existente ou criar um novo se o arquivo não existir.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+fputcsv($csvFile, ['CEP', 'Logradouro', 'Bairro', 'Cidade', 'Estado']) escreve a linha de cabeçalho no arquivo CSV. Essa linha define as colunas do arquivo.
 
-## License
+O foreach itera sobre o array de CEPs ($cepsArray) que reservei anteriormente.
+Para cada CEP, é feita uma chamada à função getUrlData($cep) para obter os dados relacionados ao CEP por meio da API.
+Os dados da resposta JSON da API são decodificados usando o  json_decode e armazenados no array $data
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+fputcsv($csvFile, $data) escreve a linha de dados no arquivo CSV.
+A função fputcsv formata os dados para serem compatíveis com CSV, incluindo tratamento de aspas e separadores.
+
+fclose($csvFile) fecha o arquivo CSV após a conclusão da escrita.
+
+assim eu retorno o arquivo $csvFilePath onde cria uma resposta HTTP que permite o download do arquivo CSV.
+A opção deleteFileAfterSend(true) indica que o arquivo será excluído após o download.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
