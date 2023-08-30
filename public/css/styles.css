@@ -1,0 +1,134 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.center-container {
+    max-width: 800px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+/* Formulário */
+form {
+    display: flex;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button.button-consultar{
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+button.button-consultar:hover {
+    background-color: #3752d5;
+}
+
+/* Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f5f5f5;
+}
+
+/* Botões */
+.button-container {
+    display: flex;
+    justify-content: center ;
+    margin-top: 20px;
+}
+
+
+button.button-exportar{
+    flex: 1;
+    padding: 10px;
+    margin: 5px;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-container
+    a{
+    flex: 1;
+    padding: 10px;
+    margin: 5px;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+
+}
+
+.button-container a:hover{
+    background-color: #3752d5;
+}
+
+.button-exportar {
+    background-color: #28a745; /* Cor verde */
+}
+
+.button-limpar {
+    background-color: #dc3545; /* Cor vermelha */
+}
+
+.errors {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.errors ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.errors li {
+    margin: 10px 10px;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
